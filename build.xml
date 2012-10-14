@@ -1,0 +1,15 @@
+<project name="SpiralDraw" default="build" basedir=".">
+    
+    <property name="FLEX_HOME" value="/Users/thej/flex" />
+    <taskdef resource="flexTasks.tasks" />
+    
+    <target name="build">
+        <mxmlc file="SpiralDraw.mxml" target-player="10" use-network="false">
+        </mxmlc>
+    </target>
+    
+    <target name="dist">
+        <mxmlc file="SpiralDraw.mxml" target-player="10" use-network="true">
+        </mxmlc>
+    </target>
+</project>

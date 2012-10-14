@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mx:Application
+    xmlns:mx="http://www.adobe.com/2006/mxml"
+    applicationComplete="init()">
+
+  <mx:Script>
+    <![CDATA[
+        private var controller:Controller;
+        private function init():void
+        {
+            controller = new Controller(this);
+        }
+    ]]>
+  </mx:Script>
+
+  <mx:HBox
+      percentWidth="100"
+      percentHeight="100">
+    <mx:ApplicationControlBar>
+      <mx:Form>
+        <mx:FormItem label="Total Wheels:">
+          <mx:NumericStepper
+              id="numWheels"
+              minimum="2"
+              maximum="{Controller.MAX_WHEELS}"/>
+        </mx:FormItem>
+
+        <mx:FormItem label="Current Wheel:">
+          <mx:NumericStepper
+              id="wheelNum"
+              minimum="2"
+              maximum="{numWheels.value}"
+              change="controller.getWheelVars()"/>
+        </mx:FormItem>
+
+        <mx:FormItem label="Arm Length:">
+          <mx:HSlider
+              id="wheelRadius"
+              minimum="0"
+              maximum="1"
+              value="0.5"
+              snapInterval="0.01"/>
+          <mx:NumericStepper
+              id="wheelRadiusStepper"
+              minimum="0"
+              maximum="1"
+              stepSize="0.01"/>
+        </mx:FormItem>
+
+        <mx:FormItem label="Wheel speed:">
+          <mx:HSlider
+              id="wheelSpeed"
+              minimum="-10"
+              maximum="10"
+              value="5"
+              snapInterval="0.01"/>
+          <mx:NumericStepper
+              id="wheelSpeedStepper"
+              minimum="-10"
+              maximum="10"
+              stepSize="0.01"/>
+        </mx:FormItem>
+        
+        <mx:FormItem label="Iterations:">
+          <mx:NumericStepper
+              id="iterations"
+              minimum="1000"
+              maximum="50000"
+              stepSize="1000"
+              value="5000"/>
+        </mx:FormItem>
+
+        <mx:Button
+            label="Randomize"
+            buttonDown="controller.randomize()"/>
+
+        <mx:HRule percentWidth="100"/>
+
+        <mx:Grid>
+          <mx:GridRow>
+            <mx:GridItem></mx:GridItem>
+            <mx:GridItem><mx:Label text="Value (Min)"/></mx:GridItem>
+            <mx:GridItem><mx:Label text="Max"/></mx:GridItem>
+            <mx:GridItem><mx:Label text="Step"/></mx:GridItem>
+          </mx:GridRow>
+
+          <mx:GridRow>
+            <mx:GridItem><mx:Label text="Red"/></mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="red"
+                  minimum="0"
+                  maximum="255"
+                  value="0"/>
+            </mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="redMax"
+                  minimum="0"
+                  maximum="255"
+                  value="255"/>
+            </mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="redStep"
+                  minimum="0"
+                  maximum="255"
+                  value="5"/>
+            </mx:GridItem>
+          </mx:GridRow>
+          
+          <mx:GridRow>
+            <mx:GridItem><mx:Label text="Green"/></mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="green"
+                  minimum="0"
+                  maximum="255"
+                  value="0"/>
+            </mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="greenMax"
+                  minimum="0"
+                  maximum="255"
+                  value="255"/>
+            </mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="greenStep"
+                  minimum="0"
+                  maximum="255"
+                  value="7"/>
+            </mx:GridItem>
+          </mx:GridRow>
+          
+
+          <mx:GridRow>
+            <mx:GridItem><mx:Label text="Blue"/></mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="blue"
+                  minimum="0"
+                  maximum="255"
+                  value="0"/>
+            </mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="blueMax"
+                  minimum="0"
+                  maximum="255"
+                  value="255"/>
+            </mx:GridItem>
+            <mx:GridItem>
+              <mx:NumericStepper
+                  id="blueStep"
+                  minimum="0"
+                  maximum="255"
+                  value="11"/>
+            </mx:GridItem>
+          </mx:GridRow>
+        </mx:Grid>
+
+        <mx:FormItem label="Rainbow">
+          <mx:CheckBox
+              id="rainbow"/>
+        </mx:FormItem>
+        
+        <mx:HRule percentWidth="100"/>
+
+        <mx:HBox>
+          <mx:Button
+              label="Draw"
+              buttonDown="controller.handleDraw()"/>
+          <mx:Button
+              label="Animate"
+              buttonDown="controller.handleDraw(true)"/>
+          <mx:Button
+              id="animationToggle"
+              label="Pause"
+              buttonDown="controller.pauseAnimation(!controller.paused)"/>
+        </mx:HBox>
+
+        <mx:HRule percentWidth="100"/>
+
+        <mx:TextInput
+            width="200"
+            id="code"/>
+          <mx:Button
+              label="Load Code"
+              buttonDown="controller.loadCode()"/>
+      </mx:Form>
+    </mx:ApplicationControlBar>
+
+    <mx:Panel
+        backgroundColor="0xFFFFFF"
+        percentWidth="100"
+        percentHeight="100">
+      <mx:Canvas id="displayArea"
+                 percentWidth="100"
+                 percentHeight="100">
+      </mx:Canvas>
+    </mx:Panel>
+  </mx:HBox>
+
+  <mx:Binding
+      source="wheelRadius.value"
+      destination="wheelRadiusStepper.value"/>
+  <mx:Binding
+      source="wheelRadiusStepper.value"
+      destination="wheelRadius.value"/>
+
+  <mx:Binding
+      source="wheelSpeed.value"
+      destination="wheelSpeedStepper.value"/>
+  <mx:Binding
+      source="wheelSpeedStepper.value"
+      destination="wheelSpeed.value"/>
+
+</mx:Application>
